@@ -1,11 +1,12 @@
 const argsFormFilter = require('./args-form-filter');
 const attachmentsFromDir = require('./attachments-from-dir');
 const attachmentFromFile = require('./attachment-from-file');
+const attachmentFromXLSXFile = require('./attachment-from-XLSX-file');
 const crypto = require('crypto');
 const fs = require('./sync-fs');
 const log = require('./log');
 const insertOrReplace = require('./insert-or-replace');
-const saveCurrentFormToOldForm = require('./save-current-form-to-old-form')
+const saveCurrentFormToOldForm = require('./save-current-form-to-old-form');
 const pouch = require('./db');
 const warnUploadOverwrite = require('./warn-upload-overwrite');
 const {
@@ -86,6 +87,7 @@ const execute = async (projectDir, subDirectory, options) => {
 
     doc._attachments = mediaDirExists ? attachmentsFromDir(mediaDir) : {};
     doc._attachments.xml = attachmentFromFile(xformPath);
+    doc._attachments.xlsx = attachmentFromXLSXFile(xformPath);
 
     const properties = SUPPORTED_PROPERTIES.concat('internalId');
 
